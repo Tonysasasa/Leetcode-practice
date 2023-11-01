@@ -9,6 +9,7 @@
 #         self.right = right
 class Solution(object):
     def findMode(self, root):
+        # BFS search. Use a default dictionary to store the frequency of the number appeared. Append all modes to the list. 
         if not root: return root
         from collections import deque
         que = deque([root])
@@ -27,5 +28,21 @@ class Solution(object):
             if d[k] == freq:
                 ans.append(k)
         return ans
-    
-# BFS search. Use a default dictionary to store the frequency of the number appeared. Append all modes to the list. 
+
+        # DFS traversal. Same idea to BFS.
+        if not root: return root
+        ans = []
+        d = defaultdict(int)
+        def dfs(root,d):
+            if not root: return
+            d[root.val] += 1
+            if root.left:
+                dfs(root.left,d)
+            if root.right:
+                dfs(root.right,d)
+        dfs(root,d)
+        freq = max(d.values())
+        for k,v in d.items():
+            if d[k] == freq:
+                ans.append(k)
+        return ans
